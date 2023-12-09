@@ -47,28 +47,10 @@ export async function POST(req: Request) {
       model: 'gpt-3.5-turbo',
       messages,
     };
-
     const response = await createChatCompletion(createChatCompletionRequest);
-    
-
-    console.log("Request Payload:", createChatCompletionRequest);
-
     return NextResponse.json(response.choices[0]?.message?.content || '');
     
   } catch (error) {
-    console.log('[CONVERSATION_ERROR]', error);
-
-    const axiosError = error as AxiosError;
-
-  if (axiosError.response && axiosError.response.status === 500) {
-    // Handle server error
-    console.error('Internal Server Error. Please try again later.');
-    // You may want to log more details or notify the user
-  } else {
-    // Handle other errors
-    console.error('Failed to create chat completion. Axios Error:', axiosError);
-  }
-
     return new NextResponse("Internal Error", { status: 500 });
   }
 }
