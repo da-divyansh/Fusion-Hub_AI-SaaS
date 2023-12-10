@@ -1,6 +1,13 @@
 import { auth } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
 import OpenAI from "openai";
+import { ChatCompletionRequestMessage } from "openchat";
+
+// Custom message for instruction  
+const instructionMessage : ChatCompletionRequestMessage =  {
+  role : "system",
+  content: "you are a code generater, you should must always send a response only in markdown code snippets using comments for explanations  and very precise. "
+}
 
 // Configuration for OpenAI API key
 const configuration = {
@@ -18,7 +25,7 @@ async function createChatCompletion(request: any): Promise<any> {
 
     return response;
   } catch (error) {
-    console.log('[CONVERSATION_ERROR]', error);
+    console.log('[CODE_ERROR]', error);
     throw new Error("Failed to create chat completion");
   }
 }
@@ -42,9 +49,11 @@ export async function POST(req: Request) {
       return new NextResponse("Messages are required", { status: 400 });
     }
 
+    const messagesWithInstruction = [...messages, instructionMessage];
+
     const createChatCompletionRequest = {
       model: 'gpt-3.5-turbo',
-      messages,
+      messages: messagesWithInstruction,
     };
     const response = await createChatCompletion(createChatCompletionRequest);
     return NextResponse.json(response.choices[0]?.message?.content || '');
