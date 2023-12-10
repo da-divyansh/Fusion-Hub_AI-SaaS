@@ -82,10 +82,10 @@ import { BotAvatar } from '@/components/bot-avatar';
                 <FormField
                   name="prompt"
                   render={({ field }) => (
-                    <FormItem className="col-spaan-12 lg:col-span-10">
+                    <FormItem className="col-span-12 lg:col-span-10">
                       <FormControl className="m-0 p-0">
                         <Input
-                          className="border-0 outline-none focus-visible:ring-0 focus-visible:ring-transparent w-fit"
+                          className="border-0 outline-none focus-visible:ring-0 focus-visible:ring-transparent w-full"
                           disabled={isLoading}
                           placeholder="Let's start conversation"
                           {...field}
@@ -108,7 +108,7 @@ import { BotAvatar } from '@/components/bot-avatar';
             )}
             {messages.length == 0 && !isLoading && (
               <div>
-                <Empty label='No conversation started.' />            
+                <Empty label='Conversation not started.' />            
               </div>
             )}
             <div className="flex flex-col-reverse gap-y-4">

@@ -2,7 +2,7 @@
   
 import { ChatCompletionRequestMessage } from 'openchat';
 import { useRouter } from "next/navigation";
-import { Code2} from "lucide-react";
+import { Image } from "lucide-react";
 import axios from "axios";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -22,7 +22,7 @@ import { Loader } from '@/components/loader';
 import { UserAvatar } from '@/components/user-avatar';
 import { BotAvatar } from '@/components/bot-avatar';
   
-  const CodePage = () => {
+  const ImagePage = () => {
     const router = useRouter();
     const [messages, setMessages] = useState<ChatCompletionRequestMessage[]>([]);
   
@@ -66,11 +66,11 @@ import { BotAvatar } from '@/components/bot-avatar';
     return (
       <div>
         <Heading
-          title="Code Generation"
-          description="Most advanced code generation model."
-          icon={Code2}
-          iconColor="text-green-700"
-          bgColor="bg-green-700/10"
+          title="Image Generation"
+          description="Most advanced image generation model."
+          icon={Image}
+          iconColor="text-pink-500"
+          bgColor="bg-pink-500/10"
         />
         <div className="px-4 lg:px-8">
           <div>
@@ -85,9 +85,9 @@ import { BotAvatar } from '@/components/bot-avatar';
                     <FormItem className="col-span-12 lg:col-span-10">
                       <FormControl className="m-0 p-0">
                         <Input
-                          className="border-0 outline-none focus-visible:ring-0 focus-visible:ring-transparent w-full"
+                          className="border-0 outline-none focus-visible:ring-0 focus-visible:ring-transparent w-full "
                           disabled={isLoading}
-                          placeholder="Let's start code"
+                          placeholder="Picture your thoughts"
                           {...field}
                         />
                       </FormControl>
@@ -108,7 +108,7 @@ import { BotAvatar } from '@/components/bot-avatar';
             )}
             {messages.length == 0 && !isLoading && (
               <div>
-                <Empty label='Code generation not started.' />            
+                <Empty label='Image generation not started.' />            
               </div>
             )}
             <div className="flex flex-col-reverse gap-y-4">
@@ -150,5 +150,5 @@ import { BotAvatar } from '@/components/bot-avatar';
       </div>
     );
   }  
-export default CodePage;
+export default ImagePage;
   
