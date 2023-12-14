@@ -1,6 +1,7 @@
 import { auth } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
 import OpenAI from "openai";
+import { incrementApiLimit, checkApiLimit } from "@/lib/api-limit";
 
 // Configuration for OpenAI API key
 const configuration = {
@@ -41,6 +42,13 @@ export async function POST(req: Request) {
       return new NextResponse("Resolution is required", { status: 400 });
     }
 
+    const freeTrial = await checkApiLimit();
+
+    if(!freeTrial) {
+      return new NextResponse("Free trial is expired.", {status: 403});
+    }
+
+
     const imageRequest = {
       model: 'dall-e-2',
       prompt,
@@ -48,13 +56,15 @@ export async function POST(req: Request) {
       size: resolution,
     };
 
+    await incrementApiLimit();
+
     const response = await generateImage(imageRequest);
 
     if (Array.isArray(response.data) && response.data.length > 0) {
       const imageUrls = response.data.map((item: { url: any; }) => item.url);
       return NextResponse.json({ imageUrls });
     } else {
-       return new NextResponse(' Route_Invalid response structure', { status: 500 });
+       return new NextResponse('Invalid response structure', { status: 500 });
       }
     } catch (error) {
     return new NextResponse("Internal Error", { status: 500 });

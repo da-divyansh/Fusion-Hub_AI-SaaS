@@ -2,6 +2,7 @@ import { auth } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
 import OpenAI from "openai";
 import { ChatCompletionRequestMessage } from "openchat";
+import { incrementApiLimit, checkApiLimit } from "@/lib/api-limit";
 
 // Custom message for instruction  
 const instructionMessage : ChatCompletionRequestMessage =  {
@@ -49,15 +50,24 @@ export async function POST(req: Request) {
       return new NextResponse("Messages are required", { status: 400 });
     }
 
+    const freeTrial = await checkApiLimit();
+
+    if(!freeTrial) {
+      return new NextResponse("Free trial is expired.", {status: 403});
+    }
+ 
+
     const messagesWithInstruction = [...messages, instructionMessage];
 
     const createChatCompletionRequest = {
       model: 'gpt-3.5-turbo',
       messages: messagesWithInstruction,
     };
+    
+    await incrementApiLimit();
+
     const response = await createChatCompletion(createChatCompletionRequest);
     return NextResponse.json(response.choices[0]?.message?.content || '');
-    
   } catch (error) {
     return new NextResponse("Internal Error", { status: 500 });
   }
