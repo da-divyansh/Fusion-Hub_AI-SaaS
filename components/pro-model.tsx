@@ -47,7 +47,7 @@ export const ProModel = () => {
     const proModel = useProModel();
 
     return (
-        <Dialog open={proModel.isOpen} >
+        <Dialog open={proModel.isOpen} onOpenChange={proModel.onClose}>
             <DialogContent>
                 <DialogHeader>
                     <DialogTitle className="flex justify-center items-center flex-col gap-y-4 pb-2">

@@ -19,8 +19,10 @@ import { Empty } from '@/components/empty';
 import { Loader } from '@/components/loader';
 import { Card, CardFooter } from "@/components/ui/card";
 import { Download, ImageIcon } from "lucide-react";
+import { useProModel } from "@/hooks/use-pro-model";
   
   const ImagePage = () => {
+    const proModel = useProModel();
     const router = useRouter();
     const [images, setImages] = useState<string[]>([]);
 
@@ -44,8 +46,10 @@ import { Download, ImageIcon } from "lucide-react";
           console.error("Invalid response structure", response.data);
         }
         form.reset();
-      } catch (error) {
-        console.error("Image_Error", error);
+      } catch (error: any) {
+        if ( error?.response?.status === 403 ) {
+          proModel.onOpen();
+        }
       } finally {
         router.refresh();
       }

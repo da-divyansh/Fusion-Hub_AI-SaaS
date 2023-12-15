@@ -21,8 +21,10 @@ import { Empty } from '@/components/empty';
 import { Loader } from '@/components/loader';
 import { UserAvatar } from '@/components/user-avatar';
 import { BotAvatar } from '@/components/bot-avatar';
+import { useProModel } from '@/hooks/use-pro-model';
   
   const CodePage = () => {
+    const proModel = useProModel();
     const router = useRouter();
     const [messages, setMessages] = useState<ChatCompletionRequestMessage[]>([]);
   
@@ -54,9 +56,10 @@ import { BotAvatar } from '@/components/bot-avatar';
         }
         setMessages((current) => [...current, ...newMessages, {...responseContent,}]);
         form.reset();
-      } catch (error) {
-        console.log("Code Error(Page.tsx)",error);
-        
+      } catch (error: any) {
+        if ( error?.response?.status === 403 ) {
+          proModel.onOpen();
+        }
       } finally {
         router.refresh();
       }
