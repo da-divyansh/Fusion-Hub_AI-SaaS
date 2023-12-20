@@ -9,7 +9,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { cn } from '@/lib/utils';
   
 import { formSchema } from "./constants";
-  
+
+import toast from 'react-hot-toast';
 import ReactMarkdown from "react-markdown"
 import { useForm } from "react-hook-form";
 import { useState } from "react";
@@ -59,6 +60,8 @@ import { useProModel } from '@/hooks/use-pro-model';
       } catch (error: any) {
         if ( error?.response?.status === 403 ) {
           proModel.onOpen();
+        } else{
+          toast.error("Something went wrong");
         }
       } finally {
         router.refresh();

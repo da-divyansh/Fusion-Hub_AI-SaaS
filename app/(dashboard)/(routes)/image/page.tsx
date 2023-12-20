@@ -7,6 +7,7 @@ import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 import { useState } from "react";
 import { amountOptions, formSchema, resolutionOptions } from "./constants";
   
@@ -49,6 +50,8 @@ import { useProModel } from "@/hooks/use-pro-model";
       } catch (error: any) {
         if ( error?.response?.status === 403 ) {
           proModel.onOpen();
+        } else{
+          toast.error("Something went wrong");
         }
       } finally {
         router.refresh();

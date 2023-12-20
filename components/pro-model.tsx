@@ -10,6 +10,7 @@ import { Badge } from "@/components/ui/badge"
 import { Card } from "./ui/card";
 import { Button } from "./ui/button";
 import { cn } from "@/lib/utils";
+import toast from "react-hot-toast";
 
 const tools = [
     {
@@ -56,7 +57,7 @@ export const ProModel = () => {
 
             window.location.href = response.data.url; 
         } catch (error) {
-            console.log("STRIPE_CLIENT_ERROR", error);
+            toast.error("Something went wrong");
         } finally {
             setLoading(false);
         }
