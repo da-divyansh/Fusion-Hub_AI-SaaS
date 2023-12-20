@@ -1,4 +1,6 @@
 "use client"
+import axios from "axios";
+import { useState } from "react";
 
 import { Check, Code, ImageIcon, MessageSquare, Music, VideoIcon, Zap } from "lucide-react";
 
@@ -6,8 +8,8 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { useProModel } from "@/hooks/use-pro-model"
 import { Badge } from "@/components/ui/badge"
 import { Card } from "./ui/card";
-import { cn } from "@/lib/utils";
 import { Button } from "./ui/button";
+import { cn } from "@/lib/utils";
 
 const tools = [
     {
@@ -45,6 +47,20 @@ const tools = [
 export const ProModel = () => {
 
     const proModel = useProModel();
+    const [loading, setLoading] = useState(false);
+
+    const onSubscribe =async () => {
+        try {
+            setLoading(true);
+            const response = await axios.get("/api/stripe")
+
+            window.location.href = response.data.url; 
+        } catch (error) {
+            console.log("STRIPE_CLIENT_ERROR", error);
+        } finally {
+            setLoading(false);
+        }
+    }
 
     return (
         <Dialog open={proModel.isOpen} onOpenChange={proModel.onClose}>
@@ -79,6 +95,7 @@ export const ProModel = () => {
                 </DialogHeader>
                 <DialogFooter>
                     <Button
+                    onClick={onSubscribe}
                         size="lg"
                         variant="pro"
                         className="w-full"

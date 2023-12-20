@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 import OpenAI from "openai";
 import { ChatCompletionRequestMessage } from "openchat";
 import { incrementApiLimit, checkApiLimit } from "@/lib/api-limit";
+import { checkSubscription } from "@/lib/subscription";
 
 // Custom message for instruction  
 const instructionMessage : ChatCompletionRequestMessage =  {
@@ -51,11 +52,11 @@ export async function POST(req: Request) {
     }
 
     const freeTrial = await checkApiLimit();
+    const isPro = await checkSubscription();
 
-    if(!freeTrial) {
+    if(!freeTrial && !isPro) {
       return new NextResponse("Free trial is expired.", {status: 403});
     }
- 
 
     const messagesWithInstruction = [...messages, instructionMessage];
 
@@ -64,7 +65,9 @@ export async function POST(req: Request) {
       messages: messagesWithInstruction,
     };
     
-    await incrementApiLimit();
+    if(!isPro){
+      await incrementApiLimit();
+    }
 
     const response = await createChatCompletion(createChatCompletionRequest);
     return NextResponse.json(response.choices[0]?.message?.content || '');
