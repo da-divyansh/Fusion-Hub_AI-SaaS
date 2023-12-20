@@ -95,7 +95,8 @@ export const ProModel = () => {
                 </DialogHeader>
                 <DialogFooter>
                     <Button
-                    onClick={onSubscribe}
+                        disabled ={loading}
+                        onClick={onSubscribe}
                         size="lg"
                         variant="pro"
                         className="w-full"
