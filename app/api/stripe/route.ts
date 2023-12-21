@@ -42,7 +42,7 @@ export async function GET() {
                     price_data: {
                         currency: "INR",
                         product_data: {
-                            name: "Genius Pro",
+                            name: "Fusion Hub Pro",
                             description: "Unlimited AI Generation"
                         },
                         unit_amount: 9900,
