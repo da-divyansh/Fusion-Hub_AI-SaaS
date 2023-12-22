@@ -23,7 +23,3 @@ Welcome to Fusion Hub AI SaaS Platform, a project built with Next.js 14, React, 
 ## Prerequisites
 
 - Node.js version 14.x.x
-
-### Cloning the Repository
-
-git clone https://github.com/your_username/fusion-hub.git
