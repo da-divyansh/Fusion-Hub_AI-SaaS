@@ -45,7 +45,7 @@ export async function GET() {
                             name: "Fusion Hub Pro",
                             description: "Unlimited AI Generation"
                         },
-                        unit_amount: 9900,
+                        unit_amount: 29900,
                         recurring: {
                             interval: "month"
                         }
