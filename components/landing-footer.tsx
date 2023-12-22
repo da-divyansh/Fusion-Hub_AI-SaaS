@@ -26,7 +26,7 @@ export const LandingFooter = () => {
                         © 2024 All rights reserved to Fusion Hub AI.
                     </span>
                 <div className="flex items-center gap-x-2">
-                    <Link href={""}>
+                    <Link href={"https://github.com/DA-Divyansh/Fusion-Hub_AI-SaaS"}>
                         <Button variant="outline" className="rounded-full font-semibold hover:bg-gradient-to-r from-indigo-400 via-purple-500 to-pink-500 border-0">
                             Github
                         </Button>
